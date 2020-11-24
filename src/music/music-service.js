@@ -1,15 +1,15 @@
 const MusicService = {
   //relevant
-  getMusic(db) {
+  getMusics(db) {
     return db
       .select('*')
       .from('music');
   },
-  getMusicById(db, Music_id) {
+  getMusicById(db, music_id) {
     return db
       .select('*')
       .from('music')
-      .where('music.id', Music_id)
+      .where('music.id', music_id)
       .first();
   },
   //relevant
@@ -24,7 +24,7 @@ const MusicService = {
   },
   //relevant
   updateMusic(db, music_id, newMusic) {
-    return db('Music')
+    return db('music')
       .update(newMusic, returning = true)
       .where({
         id: music_id
