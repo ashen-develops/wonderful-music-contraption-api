@@ -25,6 +25,7 @@ const MusicService = {
   //relevant
   updateMusic(db, music_id, newMusic) {
     return db('music')
+      // eslint-disable-next-line no-undef
       .update(newMusic, returning = true)
       .where({
         id: music_id

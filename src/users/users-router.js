@@ -1,8 +1,9 @@
-const express = require('express')
-const path = require('path')
-const usersRouter = express.Router()
-const jsonBodyParser = express.json()
-const UsersService = require('./users-service')
+/* eslint-disable no-console */
+const express = require('express');
+const path = require('path');
+const usersRouter = express.Router();
+const jsonBodyParser = express.json();
+const UsersService = require('./users-service');
 
 
 // All users
@@ -11,28 +12,28 @@ usersRouter
   .get((req, res, next) => {
     UsersService.getAllUsers(req.app.get('db'))
       .then(user => {
-        console.log('User:', user)
-        res.json(user)
+        console.log('User:', user);
+        res.json(user);
       })
-      .catch(next)
+      .catch(next);
   })
 //register new user
   .post(jsonBodyParser, (req, res, next) => {
-    const { user_name, password } = req.body
+    const { user_name, password } = req.body;
 
-    console.log("user_name:", user_name, "password:", password);
+    console.log('user_name:', user_name, 'password:', password);
 
     for (const field of ['user_name', 'password'])
       if (!req.body[field])
         return res.status(400).json({
           error: `Missing '${field}' in request body`
-        })
-    const passwordError = UsersService.validatePassword(password)
+        });
+    const passwordError = UsersService.validatePassword(password);
 
-    console.log("password error:",passwordError);
+    console.log('password error:',passwordError);
 
     if (passwordError)
-      return res.status(400).json({ error: passwordError })
+      return res.status(400).json({ error: passwordError });
 
     UsersService.hasUserWithUserName(
       req.app.get('db'),
@@ -40,33 +41,33 @@ usersRouter
     )
       .then(hasUserWithUserName => {
 
-        console.log("hasUserWithUserName:", hasUserWithUserName);
+        console.log('hasUserWithUserName:', hasUserWithUserName);
 
         if (hasUserWithUserName)
-          return res.status(400).json({ error: `Username already taken` })
+          return res.status(400).json({ error: 'Username already taken' });
 
         return UsersService.hashPassword(password)
           .then(hashedPassword => {
-            console.log("hashedpassword",hashedPassword);
+            console.log('hashedpassword',hashedPassword);
             const newUser = {
               user_name,
               password: hashedPassword,
-            }
+            };
             return UsersService.insertUser(
               req.app.get('db'),
               newUser
             )
               .then(user => {
-                console.log("user:", user)
+                console.log('user:', user);
                 res
                   .status(201)
                   .location(path.posix.join(req.originalUrl, `/${user.id}`))
-                  .json(UsersService.serializeUser(user))
-              })
-          })
+                  .json(UsersService.serializeUser(user));
+              });
+          });
       })
-      .catch(next)
-  })
+      .catch(next);
+  });
 
 // Individual users by id
 usersRouter
@@ -78,15 +79,15 @@ usersRouter
         if (!user) {
           return res
             .status(404)
-            .send({ error: { message: `User doesn't exist.` } })
+            .send({ error: { message: 'User doesn\'t exist.' } });
         }
-        res.user = user
-        next()
+        res.user = user;
+        next();
       })
-      .catch(next)
+      .catch(next);
   })
   .get((req, res) => {
-    res.json(UsersService.serializeUser(res.user))
+    res.json(UsersService.serializeUser(res.user));
   })
   .delete((req, res, next) => {
     const { user_id } = req.params;
@@ -95,9 +96,9 @@ usersRouter
       user_id
     )
       .then(numRowsAffected => {
-        res.status(204).end()
+        res.status(204).end();
       })
-      .catch(next)
-  })
+      .catch(next);
+  });
 
-module.exports = usersRouter
+module.exports = usersRouter;
