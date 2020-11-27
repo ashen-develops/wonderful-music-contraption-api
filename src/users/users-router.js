@@ -95,6 +95,7 @@ usersRouter
       req.app.get('db'),
       user_id
     )
+      // eslint-disable-next-line no-unused-vars
       .then(numRowsAffected => {
         res.status(204).end();
       })

@@ -1,6 +1,5 @@
 const path = require('path');
 const express = require('express');
-const xss = require('xss');
 const MusicService = require('./music-service');
 
 const musicRouter = express.Router();
@@ -72,6 +71,7 @@ musicRouter
 
     //validate the input
     for (const [key, value] of Object.entries(newMusic)) {
+      // eslint-disable-next-line eqeqeq
       if (value == null) {
         //if there is an error show it
         return res.status(400).json({
@@ -107,7 +107,7 @@ musicRouter
       //if there is an error show it
       return res.status(404).json({
         error: {
-          message: `Invalid id`
+          message: 'Invalid id'
         }
       });
     }
@@ -122,7 +122,7 @@ musicRouter
           //if there is an error show it
           return res.status(404).json({
             error: {
-              message: `Music doesn't exist`
+              message: 'Music doesn\'t exist'
             }
           });
         }
@@ -131,14 +131,14 @@ musicRouter
       })
       .catch(next);
   })
-  .get((req, res, next) => {
+  .get((req, res) => {
 
     //get each one of the objects from the results and serialize them
     res.json(serializeMusic(res.music));
   })
 //relevant
   .patch(jsonParser, (req, res, next) => {
-      //get the current date in unix format 
+    //get the current date in unix format 
     const timeElapsed = Date.now(); 
     //conver the unix format date into string
     const today = new Date(timeElapsed);
@@ -176,7 +176,7 @@ musicRouter
       //if there is an error show it
       return res.status(400).json({
         error: {
-          message: `Request body must content either 'title' or 'completed'`
+          message: 'Request body must content either \'title\' or \'completed\''
         }
       });
     }

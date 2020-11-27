@@ -9,7 +9,7 @@ const {
 
 const errorHandler = require('./middleware/error-handler');
 const pancakeRouter = require('./pancake/pancake-router');
-const authRouter = require('./auth/auth-router') 
+const authRouter = require('./auth/auth-router'); 
 const usersRouter = require('./users/users-router');
 const musicRouter = require('./music/music-router');
 
@@ -28,12 +28,12 @@ app.use(helmet());
 app.use(express.static('public'));
 
 //Load user login router
-app.use('/api/auth', authRouter) 
+app.use('/api/auth', authRouter); 
 
 //Load user registration router
-app.use('/api/users', usersRouter) 
+app.use('/api/users', usersRouter); 
 
-app.use('/api/music', musicRouter)
+app.use('/api/music', musicRouter);
 
 app.use('/api/pancakes', pancakeRouter);
 app.use(errorHandler);
