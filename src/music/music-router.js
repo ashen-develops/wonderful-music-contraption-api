@@ -9,6 +9,7 @@ const jsonParser = express.json();
 const serializeMusic = music => ({
   id: music.id,
   user_id: music.user_id,
+  song_name: music.song_name,
   group_one_two_beat_one: music.group_one_two_beat_one,
   group_one_two_beat_two: music.group_one_two_beat_two,
   group_two_one_beat_one: music.group_two_one_beat_one,
@@ -23,13 +24,10 @@ const serializeMusic = music => ({
 
 musicRouter
   .route('/')
-//relevant
   .get((req, res, next) => {
 
-    //connect to the service to get the data
     MusicService.getMusics(req.app.get('db'))
       .then(musics => {
-        //map the results to get each one of the objects and serialize them
         res.json(musics.map(serializeMusic));
       })
       .catch(next);
@@ -45,6 +43,7 @@ musicRouter
     //take the input from the user
     const {
       user_id,
+      song_name,
       group_one_two_beat_one,
       group_one_two_beat_two,
       group_two_one_beat_one,
@@ -57,6 +56,7 @@ musicRouter
     } = req.body;
     const newMusic = {
       user_id,
+      song_name,
       group_one_two_beat_one,
       group_one_two_beat_two,
       group_two_one_beat_one,
@@ -146,6 +146,7 @@ musicRouter
     //take the input from the user
     const {
       user_id,
+      song_name,
       group_one_two_beat_one,
       group_one_two_beat_two,
       group_two_one_beat_one,
@@ -158,6 +159,7 @@ musicRouter
     } = req.body;
     const musicToUpdate = {
       user_id,
+      song_name,
       group_one_two_beat_one,
       group_one_two_beat_two,
       group_two_one_beat_one,
