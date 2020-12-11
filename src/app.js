@@ -15,6 +15,10 @@ const musicRouter = require('./music/music-router');
 
 const app = express();
 
+const corsOptions = {
+  origin: 'https://wonderful-music-contraption.vercel.app'
+};
+
 const morganOption = (NODE_ENV === 'production') ?
   'tiny' :
   'common';
@@ -23,7 +27,7 @@ const morganOption = (NODE_ENV === 'production') ?
 app.use(morgan(morganOption, {
   skip: () => NODE_ENV === 'test',
 }));
-app.use(cors('https://wonderful-music-contraption.vercel.app'));
+app.use(cors(corsOptions));
 
 app.use(helmet());
 
