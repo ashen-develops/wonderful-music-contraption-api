@@ -8,7 +8,6 @@ const {
 } = require('./config');
 
 const errorHandler = require('./middleware/error-handler');
-const pancakeRouter = require('./pancake/pancake-router');
 const authRouter = require('./auth/auth-router'); 
 const usersRouter = require('./users/users-router');
 const musicRouter = require('./music/music-router');
@@ -41,7 +40,6 @@ app.use('/api/users', usersRouter);
 
 app.use('/api/music', musicRouter);
 
-app.use('/api/pancakes', pancakeRouter);
 app.use(errorHandler);
 
 module.exports = app;
