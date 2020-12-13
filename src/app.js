@@ -41,6 +41,11 @@ app.use('/api/users', usersRouter);
 
 app.use('/api/music', musicRouter);
 
+// basic api endpoint
+app.get('/', (req, res) => {
+  res.send('Hello, world!');
+});
+
 app.use(errorHandler);
 
 module.exports = app;

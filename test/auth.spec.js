@@ -16,13 +16,13 @@ describe('Auth Endpoints', function () {
   before('make knex instance', () => {
     db = knex({
       client: 'pg',
-      connection: process.env.TEST_DATABASE_URL,
+      connection: process.env.DATABASE_URL,
     });
     app.set('db', db);
   });
 
-  before('clean the tables before', () => db.raw('TRUNCATE TABLE users, notes, trigger_points, trigger_points_user RESTART IDENTITY CASCADE'));
-  afterEach('cleanup', () => db.raw('TRUNCATE TABLE users, notes, trigger_points, trigger_points_user RESTART IDENTITY CASCADE;'));
+  before('clean the tables before', () => db.raw('TRUNCATE TABLE users RESTART IDENTITY CASCADE'));
+  afterEach('cleanup', () => db.raw('TRUNCATE TABLE users RESTART IDENTITY CASCADE;'));
   after('disconnect from db', () => db.destroy());
 
   context('Given \'users\' has data', () => {
@@ -36,8 +36,8 @@ describe('Auth Endpoints', function () {
         .then(actual => {
           expect(actual).to.eql({
             id: 1,
-            email: 'email@email.com',
-            password: 'Password1'
+            user_name: 'user1',
+            password: 'Password1',
           });
         });
     });
